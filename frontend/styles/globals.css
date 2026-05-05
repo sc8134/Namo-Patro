@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  background: #080C14;
+  color: white;
+}
+
+/* ── Sacred scrollbar ─────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF6B00, #F4C430);
+  border-radius: 99px;
+}
+
+/* ── Date input ───────────────────────────────────── */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.4); cursor: pointer;
+}
+
+/* ── Sacred background ────────────────────────────── */
+@layer utilities {
+  .bg-aurora {
+    background: linear-gradient(135deg, #080C14 0%, #0D1B2A 40%, #1A0800 100%);
+  }
+  .bg-glass {
+    background: linear-gradient(135deg, rgba(255,107,0,0.06), rgba(255,255,255,0.02));
+  }
+
+  /* Mandala SVG background pattern */
+  .mandala-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='none' stroke='rgba(255,107,0,0.06)' stroke-width='1'/%3E%3Ccircle cx='100' cy='100' r='70' fill='none' stroke='rgba(244,196,48,0.05)' stroke-width='1'/%3E%3Ccircle cx='100' cy='100' r='50' fill='none' stroke='rgba(255,107,0,0.06)' stroke-width='1'/%3E%3Ccircle cx='100' cy='100' r='30' fill='none' stroke='rgba(244,196,48,0.05)' stroke-width='1'/%3E%3Cpath d='M100 10 L110 90 L190 100 L110 110 L100 190 L90 110 L10 100 L90 90 Z' fill='none' stroke='rgba(255,107,0,0.04)' stroke-width='1'/%3E%3Cpath d='M100 30 L107 93 L170 100 L107 107 L100 170 L93 107 L30 100 L93 93 Z' fill='none' stroke='rgba(244,196,48,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* Om symbol watermark */
+  .om-watermark::before {
+    content: "ॐ";
+    position: absolute;
+    font-size: 400px;
+    font-family: 'Noto Serif Devanagari', serif;
+    color: rgba(255, 107, 0, 0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+  }
+
+  /* Saffron border glow */
+  .saffron-border {
+    border: 1px solid rgba(255, 107, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.1), inset 0 0 20px rgba(255, 107, 0, 0.03);
+  }
+
+  /* Gold text gradient */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #F4C430, #FFD700, #FF9A3C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Saffron text gradient */
+  .text-saffron-gradient {
+    background: linear-gradient(135deg, #FF6B00, #FF9A3C, #F4C430);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Sacred card */
+  .sacred-card {
+    background: linear-gradient(135deg, rgba(255,107,0,0.06), rgba(244,196,48,0.03), rgba(0,0,0,0.4));
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    backdrop-filter: blur(20px);
+  }
+
+  /* Diya glow effect */
+  .diya-glow {
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 107, 0, 0.4));
+  }
+}
+
+/* ── Devanagari heading style ─────────────────────── */
+.heading-devanagari {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ── Sacred divider ───────────────────────────────── */
+.sacred-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,107,0,0.5), rgba(244,196,48,0.5), rgba(255,107,0,0.5), transparent);
+}
