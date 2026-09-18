@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import ZodiacIcon from "../components/ZodiacIcon";
+import {
+  ShatkhonaIcon,
+  IconHeart,
+  IconSparkles,
+  IconCheck,
+  IconX,
+} from "../components/icons";
 
 export default function Astrology() {
   const [rashifal, setRashifal] = useState<any[]>([]);
@@ -41,11 +48,15 @@ export default function Astrology() {
         </div>
 
         <div className="flex gap-2 mb-8 animate-fadeUp">
-          {[["rashifal","🌟 Daily Rashifal"],["compat","💞 Compatibility"]].map(([t, l]) => (
+          {[
+            { t:"rashifal", Icon: ShatkhonaIcon, label:"Daily Rashifal" },
+            { t:"compat",   Icon: IconHeart,     label:"Compatibility"  },
+          ].map(({ t, Icon, label }) => (
             <button key={t} onClick={() => setTab(t as any)}
-              className={`px-6 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300
                 ${tab === t ? "bg-white text-gray-900 shadow-lg scale-105" : "backdrop-blur-xl bg-white/5 border border-white/10 text-white/60 hover:text-white"}`}>
-              {l}
+              <Icon size={16} color={tab === t ? "#111" : "rgba(255,255,255,0.6)"} />
+              {label}
             </button>
           ))}
         </div>
@@ -105,7 +116,7 @@ export default function Astrology() {
                       {/* शुभ अंक — Lucky Numbers */}
                       <div className="backdrop-blur-xl bg-gradient-to-br from-green-500/10 to-emerald-900/10 rounded-2xl p-5 border border-green-500/20">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="text-2xl">🍀</span>
+                          <IconSparkles size={22} className="text-green-300" />
                           <p className="text-sm font-bold text-green-300 font-devanagari">शुभ अंक</p>
                           <span className="text-xs text-white/30 ml-auto">Lucky Numbers</span>
                         </div>
@@ -120,19 +131,19 @@ export default function Astrology() {
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">शुभ दिन</p>
                             <p className="text-white/70 font-devanagari">{
-                              { Mesh:"मंगलवार", Brish:"शुक्रवार", Mithun:"बुधवार", Karkat:"सोमवार",
+                              ({ Mesh:"मंगलवार", Brish:"शुक्रवार", Mithun:"बुधवार", Karkat:"सोमवार",
                                 Singha:"आइतवार", Kanya:"बुधवार", Tula:"शुक्रवार", Brischik:"मंगलवार",
                                 Dhanu:"बिहीवार", Makar:"शनिवार", Kumbha:"शनिवार", Meen:"बिहीवार"
-                              }[selected.rashi] || "—"
+                              } as Record<string,string>)[selected.rashi] || "—"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">शुभ समय</p>
                             <p className="text-white/70">{
-                              { Mesh:"बिहान ६–८", Brish:"दिउँसो २–४", Mithun:"बिहान ७–९", Karkat:"साँझ ५–७",
+                              ({ Mesh:"बिहान ६–८", Brish:"दिउँसो २–४", Mithun:"बिहान ७–९", Karkat:"साँझ ५–७",
                                 Singha:"दिउँसो १२–२", Kanya:"बिहान ८–१०", Tula:"साँझ ६–८", Brischik:"राति ९–११",
                                 Dhanu:"बिहान ५–७", Makar:"बिहान ७–९", Kumbha:"दिउँसो ३–५", Meen:"साँझ ७–९"
-                              }[selected.rashi] || "—"
+                              } as Record<string,string>)[selected.rashi] || "—"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
@@ -149,18 +160,18 @@ export default function Astrology() {
                       {/* शुभ रंग — Lucky Color */}
                       <div className="backdrop-blur-xl bg-gradient-to-br from-pink-500/10 to-purple-900/10 rounded-2xl p-5 border border-pink-500/20">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="text-2xl">🎨</span>
+                          <ShatkhonaIcon size={22} color="#f9a8d4" />
                           <p className="text-sm font-bold text-pink-300 font-devanagari">शुभ रंग</p>
                           <span className="text-xs text-white/30 ml-auto">Lucky Color</span>
                         </div>
                         <div className="flex items-center gap-4 mb-3">
                           {/* Color swatch */}
                           <div className="w-16 h-16 rounded-2xl border-2 border-white/20 flex-shrink-0 shadow-lg" style={{
-                            background: {
+                            background: ({
                               Red:"#e53e3e", Green:"#38a169", Yellow:"#d69e2e", White:"#f7fafc",
                               Gold:"#d4af37", Brown:"#8b4513", Blue:"#3182ce", Maroon:"#800000",
                               Purple:"#805ad5", Black:"#1a202c", "Sky Blue":"#87ceeb", "Sea Green":"#2e8b57"
-                            }[selected.lucky_color] || "#805ad5"
+                            } as Record<string,string>)[selected.lucky_color] || "#805ad5"
                           }} />
                           <div>
                             <p className="text-2xl font-bold text-white font-devanagari">{selected.lucky_color_np || selected.lucky_color}</p>
@@ -171,11 +182,11 @@ export default function Astrology() {
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">रंगको प्रभाव</p>
                             <p className="text-white/70 font-devanagari">{
-                              { Red:"ऊर्जा र साहस", Green:"समृद्धि र शान्ति", Yellow:"बुद्धि र खुशी",
+                              ({ Red:"ऊर्जा र साहस", Green:"समृद्धि र शान्ति", Yellow:"बुद्धि र खुशी",
                                 White:"शुद्धता र शान्ति", Gold:"सम्पत्ति र सफलता", Brown:"स्थिरता र विश्वास",
                                 Blue:"सत्य र ज्ञान", Maroon:"शक्ति र दृढता", Purple:"आध्यात्म र रहस्य",
                                 Black:"अनुशासन र गम्भीरता", "Sky Blue":"स्वतन्त्रता र सपना", "Sea Green":"उपचार र वृद्धि"
-                              }[selected.lucky_color] || "सकारात्मक ऊर्जा"
+                              } as Record<string,string>)[selected.lucky_color] || "सकारात्मक ऊर्जा"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
@@ -201,15 +212,13 @@ export default function Astrology() {
                       {/* शुभ रत्न — Lucky Gem */}
                       <div className="backdrop-blur-xl bg-gradient-to-br from-aurora-4/10 to-yellow-900/10 rounded-2xl p-5 border border-aurora-4/20">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="text-2xl">💎</span>
+                          <IconCheck size={22} className="text-yellow-300" />
                           <p className="text-sm font-bold text-yellow-300 font-devanagari">शुभ रत्न</p>
                           <span className="text-xs text-white/30 ml-auto">Lucky Gemstone</span>
                         </div>
                         <div className="flex items-center gap-4 mb-3">
-                          <div className="w-16 h-16 rounded-2xl border border-aurora-4/30 bg-aurora-4/10 flex items-center justify-center text-4xl flex-shrink-0">
-                            {{"Ruby":"🔴","Emerald":"💚","Topaz":"🟡","Pearl":"⚪","Diamond":"💎",
-                              "Sapphire":"🔵","Opal":"🌈","Coral":"🪸","Turquoise":"🩵","Garnet":"🟤",
-                              "Amethyst":"🟣","Aquamarine":"🩵"}[selected.lucky_gem] || "💎"}
+                          <div className="w-16 h-16 rounded-2xl border border-aurora-4/30 bg-aurora-4/10 flex items-center justify-center flex-shrink-0">
+                            <IconSparkles size={32} color="#F4C430" />
                           </div>
                           <div>
                             <p className="text-2xl font-bold text-white font-devanagari">{selected.lucky_gem_np || selected.lucky_gem}</p>
@@ -220,31 +229,31 @@ export default function Astrology() {
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">रत्नको शक्ति</p>
                             <p className="text-white/70 font-devanagari">{
-                              { Ruby:"आत्मविश्वास बढाउँछ", Emerald:"बुद्धि र स्मृति", Topaz:"सकारात्मकता",
+                              ({ Ruby:"आत्मविश्वास बढाउँछ", Emerald:"बुद्धि र स्मृति", Topaz:"सकारात्मकता",
                                 Pearl:"भावनात्मक शान्ति", Diamond:"स्पष्टता र शक्ति", Sapphire:"ज्ञान र सत्य",
                                 Opal:"रचनात्मकता", Coral:"साहस र ऊर्जा", Turquoise:"सुरक्षा र भाग्य",
                                 Garnet:"प्रेम र निष्ठा", Amethyst:"आध्यात्मिक शान्ति", Aquamarine:"साहस र स्पष्टता"
-                              }[selected.lucky_gem] || "सकारात्मक ऊर्जा"
+                              } as Record<string,string>)[selected.lucky_gem] || "सकारात्मक ऊर्जा"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">कसरी लगाउने</p>
                             <p className="text-white/70 font-devanagari">{
-                              { Ruby:"औँठीमा, दाहिने हात", Emerald:"औँठीमा, दाहिने हात", Topaz:"लकेटमा",
+                              ({ Ruby:"औँठीमा, दाहिने हात", Emerald:"औँठीमा, दाहिने हात", Topaz:"लकेटमा",
                                 Pearl:"औँठी वा माला", Diamond:"औँठीमा", Sapphire:"औँठीमा, दाहिने हात",
                                 Opal:"लकेटमा", Coral:"औँठी वा माला", Turquoise:"कंगनमा",
                                 Garnet:"औँठीमा", Amethyst:"लकेटमा", Aquamarine:"औँठी वा माला"
-                              }[selected.lucky_gem] || "औँठीमा"
+                              } as Record<string,string>)[selected.lucky_gem] || "औँठीमा"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
                             <p className="text-white/30 mb-0.5 font-devanagari">धातु</p>
                             <p className="text-white/70 font-devanagari">{
-                              { Ruby:"सुन", Emerald:"सुन वा चाँदी", Topaz:"सुन", Pearl:"चाँदी",
+                              ({ Ruby:"सुन", Emerald:"सुन वा चाँदी", Topaz:"सुन", Pearl:"चाँदी",
                                 Diamond:"सुन वा प्लेटिनम", Sapphire:"चाँदी", Opal:"चाँदी",
                                 Coral:"चाँदी वा तामा", Turquoise:"चाँदी", Garnet:"चाँदी",
                                 Amethyst:"चाँदी", Aquamarine:"चाँदी वा सुन"
-                              }[selected.lucky_gem] || "सुन"
+                              } as Record<string,string>)[selected.lucky_gem] || "सुन"
                             }</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-2 border border-white/10">
@@ -298,7 +307,9 @@ export default function Astrology() {
               {compat && (
                 <div className={`rounded-3xl p-8 text-center border animate-fadeIn
                   ${compat.compatible ? "bg-green-500/10 border-green-500/30" : "bg-red-500/10 border-red-500/30"}`}>
-                  <div className="text-5xl mb-4">{compat.compatible ? "💚" : "💔"}</div>
+                  <div className="text-5xl mb-4">{compat.compatible
+                    ? <IconHeart size={48} className="text-green-400 mx-auto" />
+                    : <IconX size={48} className="text-red-400 mx-auto" />}</div>
                   <div className="flex items-center justify-center gap-4 mb-4">
                     <ZodiacIcon rashi={rashifal.find(r => r.icon === compat.r1)?.rashi ?? ""} size={56} />
                     <span className="text-white/40 text-2xl">+</span>

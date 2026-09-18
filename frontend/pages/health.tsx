@@ -1,25 +1,29 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import {
+  IconDoctor, IconPharmacy, IconLab, IconHospital, IconAmbulance,
+  IconStar, IconCalendar, SuccessCheckIcon, IconCheck,
+} from "../components/icons";
 
 const DOCTORS = [
-  { name: "Dr. Ramesh Sharma", specialty: "General Physician", exp: "15 years", fee: 500, rating: 4.8, available: true, icon: "👨‍⚕️" },
-  { name: "Dr. Sita Rai", specialty: "Pediatrician", exp: "12 years", fee: 600, rating: 4.9, available: true, icon: "👩‍⚕️" },
-  { name: "Dr. Anil Thapa", specialty: "Cardiologist", exp: "20 years", fee: 1000, rating: 4.7, available: false, icon: "🩺" },
-  { name: "Dr. Maya Gurung", specialty: "Dermatologist", exp: "10 years", fee: 700, rating: 4.6, available: true, icon: "👩‍⚕️" },
-  { name: "Dr. Bikash Shrestha", specialty: "Orthopedic", exp: "18 years", fee: 900, rating: 4.8, available: true, icon: "👨‍⚕️" },
-  { name: "Dr. Sunita Karki", specialty: "Gynecologist", exp: "14 years", fee: 800, rating: 4.9, available: false, icon: "👩‍⚕️" },
+  { name: "Dr. Ramesh Sharma", specialty: "General Physician", exp: "15 years", fee: 500,  rating: 4.8, available: true },
+  { name: "Dr. Sita Rai",      specialty: "Pediatrician",      exp: "12 years", fee: 600,  rating: 4.9, available: true },
+  { name: "Dr. Anil Thapa",    specialty: "Cardiologist",      exp: "20 years", fee: 1000, rating: 4.7, available: false },
+  { name: "Dr. Maya Gurung",   specialty: "Dermatologist",     exp: "10 years", fee: 700,  rating: 4.6, available: true },
+  { name: "Dr. Bikash Shrestha",specialty: "Orthopedic",       exp: "18 years", fee: 900,  rating: 4.8, available: true },
+  { name: "Dr. Sunita Karki",  specialty: "Gynecologist",      exp: "14 years", fee: 800,  rating: 4.9, available: false },
 ];
 
 const SERVICES = [
-  { icon: "💊", label: "Pharmacy", desc: "Order medicines online" },
-  { icon: "🧪", label: "Lab Tests", desc: "Book diagnostic tests" },
-  { icon: "🏥", label: "Hospital", desc: "Find nearby hospitals" },
-  { icon: "🚑", label: "Emergency", desc: "24/7 ambulance service" },
+  { Icon: IconPharmacy,  label: "Pharmacy",   desc: "Order medicines online",    color: "from-yellow-500/20 to-yellow-900/10 border-yellow-500/20" },
+  { Icon: IconLab,       label: "Lab Tests",  desc: "Book diagnostic tests",     color: "from-blue-500/20 to-blue-900/10 border-blue-500/20" },
+  { Icon: IconHospital,  label: "Hospital",   desc: "Find nearby hospitals",     color: "from-red-500/20 to-red-900/10 border-red-500/20" },
+  { Icon: IconAmbulance, label: "Emergency",  desc: "24/7 ambulance service",    color: "from-orange-500/20 to-orange-900/10 border-orange-500/20" },
 ];
 
 export default function Health() {
   const [selected, setSelected] = useState<typeof DOCTORS[0] | null>(null);
-  const [booked, setBooked] = useState(false);
+  const [booked, setBooked]     = useState(false);
 
   return (
     <div className="min-h-screen bg-aurora relative overflow-hidden">
@@ -38,8 +42,12 @@ export default function Health() {
         {/* Services */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fadeUp">
           {SERVICES.map((s, i) => (
-            <button key={s.label} className="backdrop-blur-2xl bg-white/5 rounded-3xl border border-white/10 p-6 text-center hover:border-white/25 transition-all duration-300 hover:-translate-y-1 animate-fadeUp" style={{ animationDelay: `${i * 60}ms` }}>
-              <div className="text-4xl mb-3">{s.icon}</div>
+            <button key={s.label}
+              className={`backdrop-blur-2xl bg-gradient-to-br ${s.color} rounded-3xl border p-6 text-center hover:border-white/25 transition-all duration-300 hover:-translate-y-1 animate-fadeUp`}
+              style={{ animationDelay: `${i * 60}ms` }}>
+              <div className="flex justify-center mb-3">
+                <s.Icon size={40} color="#FF6B00" />
+              </div>
               <p className="text-white font-semibold text-sm mb-1">{s.label}</p>
               <p className="text-white/30 text-xs">{s.desc}</p>
             </button>
@@ -50,17 +58,20 @@ export default function Health() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-fadeUp">
           {DOCTORS.map((d, i) => (
-            <div key={d.name} className={`backdrop-blur-2xl rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer animate-fadeUp
-              ${d.available ? "bg-white/5 border-white/10 hover:border-white/25" : "bg-white/5 border-white/5 opacity-50"}`}
+            <div key={d.name}
+              className={`backdrop-blur-2xl rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer animate-fadeUp
+                ${d.available ? "bg-white/5 border-white/10 hover:border-white/25" : "bg-white/5 border-white/5 opacity-50"}`}
               style={{ animationDelay: `${i * 60}ms` }}
               onClick={() => d.available && setSelected(d)}>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500/30 to-pink-500/30 border border-white/10 flex items-center justify-center text-3xl flex-shrink-0">{d.icon}</div>
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500/30 to-pink-500/30 border border-white/10 flex items-center justify-center flex-shrink-0">
+                  <IconDoctor size={32} color="#FF6B00" />
+                </div>
                 <div className="flex-1">
                   <h3 className="text-white font-bold mb-1">{d.name}</h3>
                   <p className="text-white/40 text-xs mb-1">{d.specialty}</p>
                   <div className="flex items-center gap-1 text-xs text-yellow-400">
-                    <span>⭐</span>
+                    <IconStar size={12} color="#facc15" />
                     <span>{d.rating}</span>
                   </div>
                 </div>
@@ -69,8 +80,10 @@ export default function Health() {
                 <span className="text-white/40">{d.exp} exp</span>
                 <span className="text-white font-bold">₨{d.fee}</span>
               </div>
-              <div className={`mt-3 text-center py-2 rounded-xl text-xs font-semibold ${d.available ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/30"}`}>
-                {d.available ? "🟢 Available Now" : "⚫ Offline"}
+              <div className={`mt-3 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold
+                ${d.available ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/30"}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${d.available ? "bg-green-400" : "bg-white/20"}`} />
+                {d.available ? "Available Now" : "Offline"}
               </div>
             </div>
           ))}
@@ -78,15 +91,22 @@ export default function Health() {
 
         {/* Booking modal */}
         {selected && !booked && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn" onClick={() => setSelected(null)}>
-            <div className="backdrop-blur-2xl bg-white/10 rounded-3xl border border-white/20 p-8 max-w-md w-full animate-fadeUp" onClick={(e) => e.stopPropagation()}>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn"
+            onClick={() => setSelected(null)}>
+            <div className="backdrop-blur-2xl bg-white/10 rounded-3xl border border-white/20 p-8 max-w-md w-full animate-fadeUp"
+              onClick={(e) => e.stopPropagation()}>
               <h2 className="text-2xl font-bold text-white mb-4">Book Consultation</h2>
               <div className="flex items-center gap-4 mb-6">
-                <div className="text-5xl">{selected.icon}</div>
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500/30 to-pink-500/30 flex items-center justify-center">
+                  <IconDoctor size={36} color="#FF6B00" />
+                </div>
                 <div>
                   <p className="text-white font-bold">{selected.name}</p>
                   <p className="text-white/40 text-sm">{selected.specialty}</p>
-                  <p className="text-yellow-400 text-sm">⭐ {selected.rating}</p>
+                  <div className="flex items-center gap-1 text-yellow-400 text-sm mt-0.5">
+                    <IconStar size={12} color="#facc15" />
+                    <span>{selected.rating}</span>
+                  </div>
                 </div>
               </div>
               <div className="space-y-3 mb-6">
@@ -97,27 +117,37 @@ export default function Health() {
                 <div className="backdrop-blur-xl bg-white/5 rounded-2xl p-4 border border-white/10">
                   <p className="text-xs text-white/40 mb-1">Available Slots</p>
                   <div className="flex gap-2 flex-wrap mt-2">
-                    {["10:00 AM","11:30 AM","2:00 PM","4:30 PM"].map((t) => (
+                    {["10:00 AM", "11:30 AM", "2:00 PM", "4:30 PM"].map((t) => (
                       <button key={t} className="text-xs bg-white/10 border border-white/10 text-white px-3 py-1.5 rounded-lg hover:bg-white/20 transition-colors">{t}</button>
                     ))}
                   </div>
                 </div>
               </div>
-              <button onClick={() => setBooked(true)} className="w-full relative overflow-hidden rounded-2xl py-4 font-bold text-white group">
+              <button onClick={() => setBooked(true)}
+                className="w-full relative overflow-hidden rounded-2xl py-4 font-bold text-white group">
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-pink-500" />
-                <span className="relative text-lg">📅 Confirm Booking</span>
+                <span className="relative flex items-center justify-center gap-2 text-lg">
+                  <IconCalendar size={18} />
+                  Confirm Booking
+                </span>
               </button>
             </div>
           </div>
         )}
 
+        {/* Confirmed */}
         {booked && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn" onClick={() => { setBooked(false); setSelected(null); }}>
-            <div className="backdrop-blur-2xl bg-gradient-to-br from-green-500/20 to-teal-900/20 rounded-3xl border border-green-500/30 p-10 max-w-md text-center animate-fadeUp" onClick={(e) => e.stopPropagation()}>
-              <div className="text-7xl mb-4 animate-float">✅</div>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn"
+            onClick={() => { setBooked(false); setSelected(null); }}>
+            <div className="backdrop-blur-2xl bg-gradient-to-br from-green-500/20 to-teal-900/20 rounded-3xl border border-green-500/30 p-10 max-w-md text-center animate-fadeUp"
+              onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-center mb-4 animate-float">
+                <SuccessCheckIcon size={80} />
+              </div>
               <h2 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h2>
               <p className="text-white/50 mb-6">Your consultation with {selected?.name} is scheduled</p>
-              <button onClick={() => { setBooked(false); setSelected(null); }} className="backdrop-blur-xl bg-white/10 border border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all">
+              <button onClick={() => { setBooked(false); setSelected(null); }}
+                className="backdrop-blur-xl bg-white/10 border border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all">
                 Done
               </button>
             </div>

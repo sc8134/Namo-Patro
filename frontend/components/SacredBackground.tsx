@@ -1,4 +1,6 @@
-// Sacred Hindu background with mandala, Om, and saffron orbs
+import { LotusIcon } from "./icons";
+
+// Sacred Hindu background with mandala, Om, saffron orbs, and SVG lotus corners
 export default function SacredBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -27,11 +29,19 @@ export default function SacredBackground() {
         ॐ
       </div>
 
-      {/* Corner lotus decorations */}
-      <div className="absolute top-4 left-4 text-4xl opacity-10 animate-float" style={{ animationDelay: "0s" }}>🪷</div>
-      <div className="absolute top-4 right-4 text-4xl opacity-10 animate-float" style={{ animationDelay: "1s" }}>🪷</div>
-      <div className="absolute bottom-4 left-4 text-4xl opacity-10 animate-float" style={{ animationDelay: "2s" }}>🪷</div>
-      <div className="absolute bottom-4 right-4 text-4xl opacity-10 animate-float" style={{ animationDelay: "0.5s" }}>🪷</div>
+      {/* Corner lotus decorations — SVG instead of emoji */}
+      <div className="absolute top-4 left-4 opacity-10 animate-float" style={{ animationDelay: "0s" }}>
+        <LotusIcon size={36} color="#FF6B00" />
+      </div>
+      <div className="absolute top-4 right-4 opacity-10 animate-float" style={{ animationDelay: "1s" }}>
+        <LotusIcon size={36} color="#F4C430" />
+      </div>
+      <div className="absolute bottom-4 left-4 opacity-10 animate-float" style={{ animationDelay: "2s" }}>
+        <LotusIcon size={36} color="#FF6B00" />
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-10 animate-float" style={{ animationDelay: "0.5s" }}>
+        <LotusIcon size={36} color="#F4C430" />
+      </div>
     </div>
   );
 }

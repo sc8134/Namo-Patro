@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
+import {
+  FestivalIcon, DiyaIcon, LotusIcon,
+  IconCalendar, IconSearch, IconWarning, IconSparkles,
+  LiveBadge,
+} from "../components/icons";
 
 interface Festival {
   name: string;
@@ -12,12 +18,12 @@ interface Festival {
   category?: string;
 }
 
-const CATEGORY_CONFIG: Record<string, { color: string; glow: string; icon: string; gradient: string }> = {
-  public_holiday: { color:"text-aurora-1",  glow:"shadow-[0_0_30px_rgba(196,30,58,0.4)]",   icon:"🎉", gradient:"from-aurora-1/20 to-aurora-2/10" },
-  major:          { color:"text-aurora-1",  glow:"shadow-[0_0_30px_rgba(196,30,58,0.4)]",   icon:"🎊", gradient:"from-aurora-1/20 to-aurora-2/10" },
-  cultural:       { color:"text-aurora-3",  glow:"shadow-[0_0_30px_rgba(108,99,255,0.4)]",  icon:"🎭", gradient:"from-aurora-3/20 to-purple-900/10" },
-  religious:      { color:"text-aurora-4",  glow:"shadow-[0_0_30px_rgba(245,166,35,0.4)]",  icon:"🙏", gradient:"from-aurora-4/20 to-yellow-900/10" },
-  event:          { color:"text-teal-300",  glow:"shadow-[0_0_20px_rgba(45,212,191,0.3)]",  icon:"📅", gradient:"from-teal-500/10 to-teal-900/10" },
+const CATEGORY_CONFIG: Record<string, { color: string; glow: string; Icon: React.ComponentType<any>; gradient: string }> = {
+  public_holiday: { color:"text-aurora-1",  glow:"shadow-[0_0_30px_rgba(196,30,58,0.4)]",   Icon: DiyaIcon,     gradient:"from-aurora-1/20 to-aurora-2/10" },
+  major:          { color:"text-aurora-1",  glow:"shadow-[0_0_30px_rgba(196,30,58,0.4)]",   Icon: FestivalIcon, gradient:"from-aurora-1/20 to-aurora-2/10" },
+  cultural:       { color:"text-aurora-3",  glow:"shadow-[0_0_30px_rgba(108,99,255,0.4)]",  Icon: IconSparkles, gradient:"from-aurora-3/20 to-purple-900/10" },
+  religious:      { color:"text-aurora-4",  glow:"shadow-[0_0_30px_rgba(245,166,35,0.4)]",  Icon: LotusIcon,    gradient:"from-aurora-4/20 to-yellow-900/10" },
+  event:          { color:"text-teal-300",  glow:"shadow-[0_0_20px_rgba(45,212,191,0.3)]",  Icon: IconCalendar, gradient:"from-teal-500/10 to-teal-900/10" },
 };
 
 const BS_MONTHS_NP = ["बैशाख","जेठ","असार","श्रावण","भाद्र","आश्विन","कार्तिक","मंसिर","पुष","माघ","फाल्गुन","चैत्र"];
@@ -47,7 +53,7 @@ export default function Festivals() {
   }, []);
 
   // Derive unique BS years
-  const bsYears = [...new Set(events.map((e) => e.bs_year).filter(Boolean))].sort();
+  const bsYears = Array.from(new Set(events.map((e) => e.bs_year).filter(Boolean))).sort();
 
   // Filter
   const filtered = events.filter((e) => {
@@ -103,16 +109,18 @@ export default function Festivals() {
         {!loading && !error && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 animate-fadeUp">
             {[
-              { label:"Total Events",    value: total,                                          icon:"📅" },
-              { label:"Public Holidays", value: events.filter(e => e.is_public_holiday).length, icon:"🎉" },
-              { label:"BS Years",        value: bsYears.join(", "),                             icon:"🗓" },
+              { label:"Total Events",    value: total,                                          Icon: IconCalendar },
+              { label:"Public Holidays", value: events.filter(e => e.is_public_holiday).length, Icon: DiyaIcon },
+              { label:"BS Years",        value: bsYears.join(", "),                             Icon: IconSparkles },
               { label:"This Month",      value: events.filter(e => {
                 const today = new Date();
                 return e.ad_date.startsWith(`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}`);
-              }).length, icon:"⭐" },
+              }).length, Icon: FestivalIcon },
             ].map((s) => (
               <div key={s.label} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
-                <p className="text-2xl mb-1">{s.icon}</p>
+                <div className="flex justify-center mb-1">
+                  <s.Icon size={22} color="#FF6B00" />
+                </div>
                 <p className="text-white font-bold text-lg">{s.value}</p>
                 <p className="text-white/30 text-xs">{s.label}</p>
               </div>
@@ -125,14 +133,16 @@ export default function Festivals() {
           <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp items-center">
             {/* Search */}
             <div className="relative flex-1 min-w-[200px]">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">🔍</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2">
+                <IconSearch size={16} className="text-white/30" />
+              </span>
               <input value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search events..."
                 className="w-full backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl pl-10 pr-4 py-2.5 text-white text-sm placeholder-white/20 outline-none focus:border-white/30 transition-all" />
             </div>
 
             {/* Category filter */}
-            {[["all","✦ All"],["holiday","🎉 Holidays"],["event","📅 Events"]].map(([v, l]) => (
+            {[["all","✦ All"],["holiday","Holidays"],["event","Events"]].map(([v, l]) => (
               <button key={v} onClick={() => setFilter(v)}
                 className={`px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300
                   ${filter === v ? "bg-white text-gray-900 shadow-lg scale-105" : "backdrop-blur-xl bg-white/5 border border-white/10 text-white/60 hover:text-white"}`}>
@@ -168,7 +178,9 @@ export default function Festivals() {
         {/* Error */}
         {error && (
           <div className="backdrop-blur-xl bg-aurora-1/10 border border-aurora-1/30 rounded-3xl p-8 text-center animate-fadeUp">
-            <div className="text-5xl mb-4">⚠️</div>
+            <div className="flex justify-center mb-4">
+              <IconWarning size={48} className="text-aurora-1" />
+            </div>
             <p className="text-white font-semibold mb-1">Could not load live festival data</p>
             <p className="text-white/40 text-sm">Make sure the backend is running on port 5000</p>
           </div>
@@ -229,7 +241,9 @@ export default function Festivals() {
 
                       <div className="p-4">
                         <div className="flex items-start gap-3">
-                          <span className="text-xl flex-shrink-0 mt-0.5">{cfg.icon}</span>
+                          <span className="flex-shrink-0 mt-0.5">
+                            <cfg.Icon size={20} color={e.is_public_holiday ? "#C0392B" : "#FF6B00"} />
+                          </span>
                           <div className="flex-1 min-w-0">
                             <p className="text-white font-semibold text-sm leading-tight font-devanagari mb-1">{e.name}</p>
                             <div className="flex flex-wrap gap-2 text-xs">

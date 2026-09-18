@@ -4,6 +4,7 @@ import CalendarGrid from "../components/CalendarGrid";
 import Navbar from "../components/Navbar";
 import { TithiIcon, VaraIcon, NakshatraIcon, YogaIcon, KaranaIcon } from "../components/PanchangIcons";
 import { toNepaliDigits, formatAdDate } from "../utils/dateFormatter";
+import { DiyaIcon, LotusIcon, FestivalIcon } from "../components/icons";
 
 const BS_MONTH_DAYS: Record<number, number[]> = {
   2000:[30,32,31,32,31,30,30,30,29,30,29,31],2001:[31,31,32,31,31,31,30,29,30,29,30,30],
@@ -199,7 +200,7 @@ export default function Home() {
               {/* Today's date */}
               <div className="text-center lg:text-left">
                 <div className="flex items-center gap-2 justify-center lg:justify-start mb-2">
-                  <span className="text-lg animate-diyadance">🪔</span>
+                  <DiyaIcon size={20} className="animate-diyadance flex-shrink-0" />
                   <p className="text-xs uppercase tracking-[0.3em] font-semibold" style={{ color:"rgba(255,107,0,0.7)" }}>आजको मिति</p>
                 </div>
                 <div className="flex items-baseline gap-2 justify-center lg:justify-start">
@@ -295,7 +296,7 @@ export default function Home() {
                 style={{ background:"linear-gradient(135deg, rgba(255,107,0,0.12), rgba(244,196,48,0.06))" }} />
               <div className="relative">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-sm animate-diyadance">🪔</span>
+                  <DiyaIcon size={16} className="animate-diyadance flex-shrink-0" />
                   <p className="text-xs uppercase tracking-[0.2em]" style={{ color:"rgba(255,107,0,0.6)" }}>चयनित दिन</p>
                 </div>
                 <div className="flex items-baseline gap-3 mb-4">
@@ -315,7 +316,11 @@ export default function Home() {
                       border:"1px solid rgba(255,107,0,0.3)"
                     }}>
                     <div className="flex items-start gap-2 mb-2">
-                      <span className="text-2xl animate-diyadance">{selectedFestival.is_public_holiday ? "🪔" : "🪷"}</span>
+                      <span className="animate-diyadance flex-shrink-0">
+                        {selectedFestival.is_public_holiday
+                          ? <DiyaIcon size={24} />
+                          : <LotusIcon size={24} />}
+                      </span>
                       <p className="font-bold text-white text-sm leading-tight font-devanagari">{selectedFestival.name}</p>
                       {selectedFestival.is_public_holiday && (
                         <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full flex-shrink-0"
@@ -343,7 +348,7 @@ export default function Home() {
                 border:"1px solid rgba(255,107,0,0.18)"
               }}>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-base animate-diyadance">🪔</span>
+                <DiyaIcon size={16} className="animate-diyadance flex-shrink-0" />
                 <p className="text-xs uppercase tracking-[0.2em] font-devanagari"
                   style={{ color:"rgba(255,107,0,0.6)" }}>
                   {BS_MONTHS_NP[viewMonth - 1]} का पर्वहरू
@@ -400,7 +405,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background: "linear-gradient(135deg, #FF9A3C, #FF6B00)" }} />
               <div className="relative flex items-center justify-center gap-2">
-                <span className="text-xl animate-diyadance">🪔</span>
+                <DiyaIcon size={20} className="animate-diyadance flex-shrink-0" />
                 <span>आजको दिनमा जानुहोस्</span>
               </div>
             </button>
